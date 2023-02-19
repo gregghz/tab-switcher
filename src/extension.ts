@@ -7,8 +7,14 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let disposable = vscode.commands.registerCommand('tab-switcher.go', async () => {
 		// open a selector for all currently open tabs
-		const tabs: vscode.Tab[] = vscode.window.tabGroups.all.flatMap((tabGroup) => {
-			return tabGroup.tabs;
+		const tabs: TabWithUri[] = vscode.window.tabGroups.all.flatMap((tabGroup) => {
+			return tabGroup.tabs.flatMap((tab) => {
+				if (isInputWithUri(tab.input)) {
+					return [{label: tab.label, uri: tab.input.uri}];
+				} else {
+					return [];
+				}
+			});
 		});
 		const selected: string | undefined = await vscode.window.showQuickPick(tabs.map((t) => t.label), {
 			title: 'Switch tabs',
@@ -22,8 +28,8 @@ export function activate(context: vscode.ExtensionContext) {
 				return tab.label === selected;
 			});
 
-			if (tab !== undefined && hasUri(tab?.input)) {
-				await vscode.commands.executeCommand('vscode.open', tab.input.uri);
+			if (tab !== undefined) {
+				await vscode.commands.executeCommand('vscode.open', tab.uri);
 			}
 		} else {
 			console.log('No tab selected');
@@ -33,13 +39,13 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(disposable);
 }
 
-type HasUri = {
+type TabWithUri = {
+	label: string,
 	uri: Uri,
 };
 
-function hasUri(input: TabContentData): input is HasUri {
+function isInputWithUri(input: TabContentData): input is TabWithUri {
 	return typeof input === 'object' && input !== null && 'uri' in input;
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() { }

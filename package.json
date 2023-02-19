@@ -2,7 +2,12 @@
   "name": "tab-switcher",
   "displayName": "tab-switcher",
   "description": "Switch between open files quickly",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "publisher": "gregghz",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gregghz/tab-switcher"
+  },
   "engines": {
     "vscode": "^1.75.0"
   },
