@@ -19,7 +19,23 @@
     "commands": [
       {
         "command": "tab-switcher.go",
-        "title": "Change tabs"
+        "title": "Change tabs",
+        "category": "Tab Switcher"
+      },
+      {
+        "command": "tab-switcher.go.numbered",
+        "title": "Change tabs with numbers",
+        "category": "Tab Switcher"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "tab-switcher.go",
+        "key": "ctrl+alt+p"
+      },
+      {
+        "command": "tab-switcher.go.numbered",
+        "key": "ctrl+shift+alt+p"
       }
     ]
   },
